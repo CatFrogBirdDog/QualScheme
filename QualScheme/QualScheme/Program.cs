@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// Possible API http://inputsimulator.codeplex.com/
+enum State {Solid, Liquid};
 
 namespace QualScheme
 {
@@ -12,8 +12,20 @@ namespace QualScheme
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!\n");
-            Console.ReadLine();
+            State x = State.Solid;
+
+            if (x == State.Solid)
+            {
+                Console.WriteLine("Solid!");
+            }
+
+            else if (x == State.Liquid)
+            {
+                Console.WriteLine("Liquid!");
+            }
+
+            Console.ReadKey();
+                  
         }
     }
 }
