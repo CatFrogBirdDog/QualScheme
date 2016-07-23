@@ -13,6 +13,7 @@ namespace QualScheme
     class Program
     {
         static int textID = 0;
+        static MouseState current, previous;
         [STAThread]
         public static void Main()
         {
@@ -59,14 +60,18 @@ namespace QualScheme
                     {
                         GL.Begin(BeginMode.Quads);
 
+                        current = Mouse.GetState();
+
                         GL.BindTexture(TextureTarget.Texture2D, textID);
 
-                        GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0.0f, 0.0f);//Top Left Corner
-                        GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0.0f, 1.0f);//Bottom Left Corner
-                        GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1.0f, 1.0f);//Bottom Right Corner
-                        GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1.0f, 0.0f);//Top Right Corner
+                        GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0.0f + ((current.X - previous.X) / 100.0f), 0.0f + ((current.Y - previous.Y) / 100.0f));//Top Left Corner
+                        GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0.0f + ((current.X - previous.X) / 100.0f), 1.0f + ((current.Y - previous.Y) / 100.0f));//Bottom Left Corner
+                        GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1.0f + ((current.X - previous.X) / 100.0f), 1.0f + ((current.Y - previous.Y) / 100.0f));//Bottom Right Corner
+                        GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1.0f + ((current.X - previous.X) / 100.0f), 0.0f + ((current.Y - previous.Y) / 100.0f));//Top Right Corner
 
                         GL.End();
+
+                        previous = current;
                     }
 
                     else
