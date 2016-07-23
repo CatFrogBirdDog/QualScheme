@@ -14,6 +14,7 @@ namespace QualScheme
     {
         static int textID = 0;
         static MouseState current, previous;
+        static float x = 0.0f, y = 0.0f;
         [STAThread]
         public static void Main()
         {
@@ -46,6 +47,15 @@ namespace QualScheme
                     {
                         textID = Program.loadTexture();
                     }
+
+                    current = Mouse.GetState();
+
+                    if (current[MouseButton.Left])
+                    {
+                        x += ((current.X - previous.X) / 100.0f);
+                        y -= ((current.Y - previous.Y) / 100.0f);
+                    }
+                    previous = current;
                 };
 
                 game.RenderFrame += (sender, e) =>
@@ -60,18 +70,17 @@ namespace QualScheme
                     {
                         GL.Begin(BeginMode.Quads);
 
-                        current = Mouse.GetState();
+                        
 
                         GL.BindTexture(TextureTarget.Texture2D, textID);
 
-                        GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0.0f + ((current.X - previous.X) / 100.0f), 0.0f + ((current.Y - previous.Y) / 100.0f));//Top Left Corner
-                        GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0.0f + ((current.X - previous.X) / 100.0f), 1.0f + ((current.Y - previous.Y) / 100.0f));//Bottom Left Corner
-                        GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1.0f + ((current.X - previous.X) / 100.0f), 1.0f + ((current.Y - previous.Y) / 100.0f));//Bottom Right Corner
-                        GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1.0f + ((current.X - previous.X) / 100.0f), 0.0f + ((current.Y - previous.Y) / 100.0f));//Top Right Corner
+                        GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0.0f + x, 0.0f + y);//Top Left Corner
+                        GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0.0f + x, 1.0f + y);//Bottom Left Corner
+                        GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1.0f + x, 1.0f + y);//Bottom Right Corner
+                        GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1.0f + x, 0.0f + y);//Top Right Corner
 
+                       
                         GL.End();
-
-                        previous = current;
                     }
 
                     else
