@@ -47,7 +47,7 @@ namespace QualScheme
                 string s = reader.ReadLine(); // Store in a hashtable?
                 Console.WriteLine(s);
             }
-
+            // Github error test?
             // Parse and store as reactionEntrys
 
         }
