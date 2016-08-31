@@ -19,6 +19,9 @@ namespace QualScheme
         [STAThread]
         public static void Main()
         {
+            reactionTable rt = new reactionTable();
+            rt.loadTable();
+            /*
             using (var game = new GameWindow())
             {
                 GL.Enable(EnableCap.Texture2D);
@@ -130,6 +133,8 @@ namespace QualScheme
             bmp.UnlockBits(bmp_data);
 
             return id;
+            */
         }
+        
     }
 }

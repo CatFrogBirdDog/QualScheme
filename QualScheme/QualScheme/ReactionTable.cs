@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO; // File reading
 
 namespace QualScheme
 {
@@ -35,9 +36,20 @@ namespace QualScheme
     class reactionTable
     {
         static Dictionary<reactionKey, reactionEntry> table;
-        public static void loadTable()
+        public void loadTable()
         {
-            // Load from reactionTable.csv
+            // Windows Directory
+            string winDir = System.Environment.GetEnvironmentVariable("windir");
+            StreamReader reader = new StreamReader("..//..//test.txt");
+
+            while (reader.Peek() != -1)
+            {
+                string s = reader.ReadLine(); // Store in a hashtable?
+                Console.WriteLine(s);
+            }
+
+            // Parse and store as reactionEntrys
+
         }
 
         public static reactionEntry getEntry(reactionKey key)
