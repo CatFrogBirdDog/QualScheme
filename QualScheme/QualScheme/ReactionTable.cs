@@ -20,35 +20,45 @@ namespace QualScheme
 
     public struct reactionEntry
     {
-        public readonly int funcNumber;
-        public readonly int funcArg1;
-        public readonly int funcArg2;
-        public readonly int funcArg3;
-        public reactionEntry(int _funcNumber, int _funcArg1, int _funcArg2, int _funcArg3)
+        public string x;
+        public reactionEntry(string _x)
         {
-            funcNumber = _funcNumber;
-            funcArg1 = _funcArg1;
-            funcArg2 = _funcArg2;
-            funcArg3 = _funcArg3;
+            x = _x;
         }
     }
 
     class reactionTable
     {
-        static Dictionary<reactionKey, reactionEntry> table;
+        static Dictionary<reactionKey, reactionEntry> table = new Dictionary<reactionKey, reactionEntry>();
         public void loadTable()
         {
             // Windows Directory
             string winDir = System.Environment.GetEnvironmentVariable("windir");
-            StreamReader reader = new StreamReader("..//..//test.txt");
+            StreamReader reader = new StreamReader("..//..//test.csv");
 
+            if (reader.Peek() == -1) // file doesnt exist
+                return;
+
+            string rawXAxis = reader.ReadLine();
+            string[] xAxis = rawXAxis.Split(',');
             while (reader.Peek() != -1)
             {
-                string s = reader.ReadLine(); // Store in a hashtable?
-                Console.WriteLine(s);
+                string line = reader.ReadLine(); 
+
+                string[] entries = line.Split(',');
+
+                for (int i = 1; i < entries.Length; i++)
+                {
+                    reactionKey key = new reactionKey(xAxis[i], entries[0]);
+                    reactionEntry entry = new reactionEntry(entries[i]);
+                    table.Add(key, entry);
+                }
+
+                reactionKey _key = new reactionKey("Sodium", "Chlorine");
+                // Test retrieval
+                Console.WriteLine(getEntry(_key).x);
             }
-            // Github error test?
-            // Parse and store as reactionEntrys
+            
 
         }
 
