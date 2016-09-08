@@ -27,6 +27,9 @@ namespace QualScheme
 
                 game.Load += (sender, e) =>
                 {
+                    GL.Enable(EnableCap.Blend);
+                    GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
                     // setup settings, load textures, sounds
                     game.VSync = VSyncMode.On;
 
@@ -70,29 +73,29 @@ namespace QualScheme
                     GL.LoadIdentity();
                     //GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
 
+                    GL.BindTexture(TextureTarget.Texture2D, backID);
+
                     // Start background
                     GL.Begin(BeginMode.Quads);
 
-                    GL.BindTexture(TextureTarget.Texture2D, backID);
-
-                    GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0.0f, 0.0f);//Top Left Corner
-                    GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0.0f, 1.0f);//Bottom Left Corner
-                    GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1.0f, 1.0f);//Bottom Right Corner
-                    GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1.0f, 0.0f);//Top Right Corner
+                    GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(-1.0f, -1.0f);//Top Left Corner
+                    GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(-1.0f, 1.0f);//Bottom Left Corner
+                    GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1.0f, 1.0f);//Bottom Right Corner
+                    GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1.0f, -1.0f);//Top Right Corner
 
                     GL.End();
 
                     // If there's an item, show the item
                     if (textID != 0)
                     {
-                        GL.Begin(BeginMode.Quads);
-
                         GL.BindTexture(TextureTarget.Texture2D, textID);
+
+                        GL.Begin(BeginMode.Quads);
                         
-                        GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0.0f + x, 0.0f + y);//Top Left Corner
-                        GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0.0f + x, 1.0f + y);//Bottom Left Corner
-                        GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1.0f + x, 1.0f + y);//Bottom Right Corner
-                        GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1.0f + x, 0.0f + y);//Top Right Corner
+                        GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0.0f + x, 2.0f + y);//Top Left Corner
+                        GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0.0f + x, 0.0f + y);//Bottom Left Corner
+                        GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(0.5f + x, 0.0f + y);//Bottom Right Corner
+                        GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(0.5f + x, 2.0f + y);//Top Right Corner
 
 
                         GL.End();
@@ -114,11 +117,8 @@ namespace QualScheme
                 throw new ArgumentException(filename);
 
             int id = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, id);
 
-            // We will not upload mipmaps, so disable mipmapping (otherwise the texture will not appear).
-            // We can use GL.GenerateMipmaps() or GL.Ext.GenerateMipmaps() to create
-            // mipmaps automatically. In that case, use TextureMinFilter.LinearMipmapLinear to enable them.
+            GL.BindTexture(TextureTarget.Texture2D, id);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
@@ -132,6 +132,5 @@ namespace QualScheme
 
             return id;
         }
-        
     }
 }
