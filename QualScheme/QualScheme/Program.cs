@@ -13,7 +13,7 @@ namespace QualScheme
 {
     class Program
     {
-        static int textID = 0;
+        static int textID = 0, backID;
         static MouseState current, previous;
         static float x = 0.0f, y = 0.0f;
         [STAThread]
@@ -21,7 +21,6 @@ namespace QualScheme
         {
             reactionTable rt = new reactionTable();
             rt.loadTable();
-            /*
             using (var game = new GameWindow())
             {
                 GL.Enable(EnableCap.Texture2D);
@@ -32,6 +31,7 @@ namespace QualScheme
                     game.VSync = VSyncMode.On;
 
                     //game.KeyDown += new EventHandler<KeyboardKeyEventArgs>(Key.Down);
+                    backID = Program.loadTexture("labTable.jpg");
                 };
 
                 game.Resize += (sender, e) =>
@@ -49,7 +49,7 @@ namespace QualScheme
 
                     if (game.Keyboard[Key.Down])
                     {
-                        textID = Program.loadTexture();
+                        textID = Program.loadTexture("clearLiquidTestTube.jpg");
                     }
 
                     current = Mouse.GetState();
@@ -70,33 +70,30 @@ namespace QualScheme
                     GL.LoadIdentity();
                     //GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
 
+                    // Start background
+                    GL.Begin(BeginMode.Quads);
+
+                    GL.BindTexture(TextureTarget.Texture2D, backID);
+
+                    GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0.0f, 0.0f);//Top Left Corner
+                    GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0.0f, 1.0f);//Bottom Left Corner
+                    GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1.0f, 1.0f);//Bottom Right Corner
+                    GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1.0f, 0.0f);//Top Right Corner
+
+                    GL.End();
+
+                    // If there's an item, show the item
                     if (textID != 0)
                     {
                         GL.Begin(BeginMode.Quads);
 
-                        
-
                         GL.BindTexture(TextureTarget.Texture2D, textID);
-
+                        
                         GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0.0f + x, 0.0f + y);//Top Left Corner
                         GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0.0f + x, 1.0f + y);//Bottom Left Corner
                         GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1.0f + x, 1.0f + y);//Bottom Right Corner
                         GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1.0f + x, 0.0f + y);//Top Right Corner
 
-                       
-                        GL.End();
-                    }
-
-                    else
-                    {
-                        GL.Begin(PrimitiveType.Triangles);
-
-                        GL.Color3(Color.MidnightBlue);
-                        GL.Vertex2(-1.0f, 1.0f);
-                        GL.Color3(Color.SpringGreen);
-                        GL.Vertex2(0.0f, -1.0f);
-                        GL.Color3(Color.Ivory);
-                        GL.Vertex2(1.0f, 1.0f);
 
                         GL.End();
                     }
@@ -109,9 +106,10 @@ namespace QualScheme
             }
         }
 
-        public static int loadTexture()
+        public static int loadTexture(string textName)
         {
-            String filename = "..//..//test.png";
+            Constants c = new Constants();
+            String filename = c.getImgPath() + textName;
             if (String.IsNullOrEmpty(filename))
                 throw new ArgumentException(filename);
 
@@ -133,7 +131,6 @@ namespace QualScheme
             bmp.UnlockBits(bmp_data);
 
             return id;
-            */
         }
         
     }
