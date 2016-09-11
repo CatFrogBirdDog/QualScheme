@@ -32,9 +32,8 @@ namespace QualScheme
         static Dictionary<reactionKey, reactionEntry> table = new Dictionary<reactionKey, reactionEntry>();
         public void loadTable()
         {
-            // Windows Directory
-            string winDir = System.Environment.GetEnvironmentVariable("windir");
-            StreamReader reader = new StreamReader("..//..//test.csv");
+            Constants c = new Constants();
+            StreamReader reader = new StreamReader(c.getTxtPath() + "test.csv");
 
             if (reader.Peek() == -1) // file doesnt exist
                 return;
@@ -53,12 +52,12 @@ namespace QualScheme
                     reactionEntry entry = new reactionEntry(entries[i]);
                     table.Add(key, entry);
                 }
-
-                reactionKey _key = new reactionKey("Sodium", "Chlorine");
-                // Test retrieval
-                Console.WriteLine(getEntry(_key).x);
             }
-            
+
+            // Should be testing out here, my bad
+            reactionKey _key = new reactionKey("Sodium", "Chlorine");
+            // Test retrieval
+            Console.WriteLine(getEntry(_key).x);
 
         }
 
