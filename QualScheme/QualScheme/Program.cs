@@ -34,7 +34,7 @@ namespace QualScheme
                     game.VSync = VSyncMode.On;
 
                     //game.KeyDown += new EventHandler<KeyboardKeyEventArgs>(Key.Down);
-                    backID = Program.loadTexture("labTable.jpg");
+                    backID = Program.loadTexture("labTable.png");
                 };
 
                 game.Resize += (sender, e) =>
@@ -52,7 +52,7 @@ namespace QualScheme
 
                     if (game.Keyboard[Key.Down])
                     {
-                        textID = Program.loadTexture("clearLiquidTestTube.jpg");
+                        textID = Program.loadTexture("clearLiquidTestTube.png");
                     }
 
                     current = Mouse.GetState();

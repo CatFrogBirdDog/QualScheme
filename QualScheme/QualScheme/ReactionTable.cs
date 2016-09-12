@@ -33,7 +33,7 @@ namespace QualScheme
         public void loadTable()
         {
             Constants c = new Constants();
-            StreamReader reader = new StreamReader(c.getTxtPath() + "test.csv");
+            StreamReader reader = new StreamReader(c.getTxtPath() + "group1reactions.csv");
 
             if (reader.Peek() == -1) // file doesnt exist
                 return;
@@ -55,7 +55,7 @@ namespace QualScheme
             }
 
             // Should be testing out here, my bad
-            reactionKey _key = new reactionKey("Sodium", "Chlorine");
+            reactionKey _key = new reactionKey("hydrochloricAcid", "lead");
             // Test retrieval
             Console.WriteLine(getEntry(_key).x);
 
