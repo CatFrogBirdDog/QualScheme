@@ -19,10 +19,25 @@ namespace QualScheme
         [STAThread]
         public static void Main()
         {
-            Solution s = new Solution();
-            s.generateSolution(true, false, false, false);
-
+            bool g1 = false, g2 = false, g3 = false, g4 = false;
             string input;
+
+            Console.WriteLine("Use group 1? Y/N");
+            input = Console.ReadLine();
+            g1 = (input == "Y");
+            Console.WriteLine("Use group 2 Y/N?");
+            input = Console.ReadLine();
+            g2 = (input == "Y");
+            Console.WriteLine("Use group 3 Y/N?");
+            input = Console.ReadLine();
+            g3 = (input == "Y");
+            Console.WriteLine("Use group 4 Y/N?");
+            input = Console.ReadLine();
+            g4 = (input == "Y");
+
+            Solution s = new Solution();
+            s.generateSolution(g1, g2, g3, g4);
+
             input = Console.ReadLine();
 
             while (input != "END")
