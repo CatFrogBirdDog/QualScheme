@@ -19,10 +19,30 @@ namespace QualScheme
         [STAThread]
         public static void Main()
         {
-            reactionTable rt = new reactionTable();
             Solution s = new Solution();
             s.generateSolution(true, false, false, false);
-            s.printSolution();
+
+            string input;
+            input = Console.ReadLine();
+
+            while (input != "END")
+            {
+                if (input == "PRINT")
+                    s.printSolution();
+
+                else
+                    s.react(input);
+
+                input = Console.ReadLine();
+            }
+        } // Delete this when readding graphics
+
+
+
+
+
+            // Ignoring graphical stuff for now
+            /*
             using (var game = new GameWindow())
             {
                 GL.Enable(EnableCap.Texture2D);
@@ -133,6 +153,6 @@ namespace QualScheme
             bmp.UnlockBits(bmp_data);
 
             return id;
-        }
+        }*/
     }
 }

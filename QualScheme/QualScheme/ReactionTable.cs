@@ -18,19 +18,10 @@ namespace QualScheme
         }
     }
 
-    public struct reactionEntry
-    {
-        public string x;
-        public reactionEntry(string _x)
-        {
-            x = _x;
-        }
-    }
-
     class reactionTable
     {
-        static Dictionary<reactionKey, reactionEntry> table = new Dictionary<reactionKey, reactionEntry>();
-        public void loadTable()
+        static Dictionary<reactionKey, string> table = new Dictionary<reactionKey, string>();
+        public reactionTable()
         {
             Constants c = new Constants();
             StreamReader reader = new StreamReader(c.getTxtPath() + "group1reactions.csv");
@@ -49,23 +40,18 @@ namespace QualScheme
                 for (int i = 1; i < entries.Length; i++)
                 {
                     reactionKey key = new reactionKey(xAxis[i], entries[0]);
-                    reactionEntry entry = new reactionEntry(entries[i]);
-                    table.Add(key, entry);
+                    table.Add(key, entries[i]);
                 }
             }
-
-            // Should be testing out here, my bad
-            reactionKey _key = new reactionKey("hydrochloricAcid", "lead");
-            // Test retrieval
-            Console.WriteLine(getEntry(_key).x);
-
         }
 
-        public static reactionEntry getEntry(reactionKey key)
+        public string getEntry(reactionKey key)
         {
-            reactionEntry ret;
-            table.TryGetValue(key, out ret);
-            return ret;
+            string ret;
+            if (table.TryGetValue(key, out ret))
+                return ret;
+            else
+                return "INVALID KEY";
         }
     }
 }

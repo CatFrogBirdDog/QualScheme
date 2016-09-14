@@ -10,6 +10,7 @@ namespace QualScheme
     class Solution
     {
         private List<string> ions = new List<string>();
+        reactionTable rt = new reactionTable();
         public void generateSolution(bool group1, bool group2, bool group3, bool group4)
         {
             if (group1)
@@ -31,6 +32,11 @@ namespace QualScheme
             {
                 ions.AddRange(generateFromList("group4.csv"));
             }
+        }
+
+        public void react(string reagent)
+        {
+            ions.ForEach(el => Console.WriteLine(rt.getEntry(new reactionKey(reagent, el))));
         }
 
         public void printSolution()
