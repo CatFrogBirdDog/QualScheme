@@ -24,7 +24,7 @@ namespace QualScheme
         public reactionTable()
         {
             Constants c = new Constants();
-            StreamReader reader = new StreamReader(c.getTxtPath() + "group1reactions.csv");
+            StreamReader reader = new StreamReader(c.getTxtPath() + "reactions.csv");
 
             if (reader.Peek() == -1) // file doesnt exist
                 return;
