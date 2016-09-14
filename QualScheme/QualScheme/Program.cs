@@ -20,7 +20,9 @@ namespace QualScheme
         public static void Main()
         {
             reactionTable rt = new reactionTable();
-            rt.loadTable();
+            Solution s = new Solution();
+            s.generateSolution(true, false, false, false);
+            s.printSolution();
             using (var game = new GameWindow())
             {
                 GL.Enable(EnableCap.Texture2D);

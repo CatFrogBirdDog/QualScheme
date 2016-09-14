@@ -10,6 +10,6 @@
         public static string textPath = "..//..//ChemLabTexts//";
 #endif
         public string getTxtPath() { return textPath;  }
-        public string getImgPath() { return imagePath;  }
+        public string getImgPath() { return imagePath; }
     }
 }
