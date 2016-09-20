@@ -16,48 +16,10 @@ namespace QualScheme
         static int textID = 0, backID;
         static MouseState current, previous;
         static float x = 0.0f, y = 0.0f;
+        static Container c = new Container();
         [STAThread]
         public static void Main()
         {
-            bool g1 = false, g2 = false, g3 = false, g4 = false;
-            string input;
-
-            Console.WriteLine("Use group 1? Y/N");
-            input = Console.ReadLine();
-            g1 = (input == "Y");
-            Console.WriteLine("Use group 2 Y/N?");
-            input = Console.ReadLine();
-            g2 = (input == "Y");
-            Console.WriteLine("Use group 3 Y/N?");
-            input = Console.ReadLine();
-            g3 = (input == "Y");
-            Console.WriteLine("Use group 4 Y/N?");
-            input = Console.ReadLine();
-            g4 = (input == "Y");
-
-            Solution s = new Solution();
-            s.generateSolution(g1, g2, g3, g4);
-
-            input = Console.ReadLine();
-
-            while (input != "END")
-            {
-                if (input == "PRINT")
-                    s.printSolution();
-
-                else
-                    s.react(input);
-
-                input = Console.ReadLine();
-            }
-        } // Delete this when readding graphics
-
-
-
-
-
-            // Ignoring graphical stuff for now
-            /*
             using (var game = new GameWindow())
             {
                 GL.Enable(EnableCap.Texture2D);
@@ -70,8 +32,8 @@ namespace QualScheme
                     // setup settings, load textures, sounds
                     game.VSync = VSyncMode.On;
 
-                    //game.KeyDown += new EventHandler<KeyboardKeyEventArgs>(Key.Down);
                     backID = Program.loadTexture("labTable.png");
+                    textID = Program.loadTexture("clearLiquidTestTube.png");
                 };
 
                 game.Resize += (sender, e) =>
@@ -89,7 +51,7 @@ namespace QualScheme
 
                     if (game.Keyboard[Key.Down])
                     {
-                        textID = Program.loadTexture("clearLiquidTestTube.png");
+                        // Example of keyboardness
                     }
 
                     current = Mouse.GetState();
@@ -122,21 +84,8 @@ namespace QualScheme
 
                     GL.End();
 
-                    // If there's an item, show the item
-                    if (textID != 0)
-                    {
-                        GL.BindTexture(TextureTarget.Texture2D, textID);
-
-                        GL.Begin(BeginMode.Quads);
-
-                        GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0.0f + x, 2.0f + y);//Top Left Corner
-                        GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0.0f + x, 0.0f + y);//Bottom Left Corner
-                        GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(0.5f + x, 0.0f + y);//Bottom Right Corner
-                        GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(0.5f + x, 2.0f + y);//Top Right Corner
-
-
-                        GL.End();
-                    }
+                    c.draw(x, y, textID);
+                    
 
                     game.SwapBuffers();
                 };
@@ -168,6 +117,6 @@ namespace QualScheme
             bmp.UnlockBits(bmp_data);
 
             return id;
-        }*/
+        }
     }
 }
