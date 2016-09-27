@@ -14,9 +14,11 @@ namespace QualScheme
     class Program
     {
         static int textID = 0, backID;
-        static MouseState current, previous;
-        static float x = 0.0f, y = 0.0f;
+        static Solution mainSolution;        
+        static MouseDevice current, previous;
         static Container c = new Container();
+        static MainMenu main;
+        static bool inMain, inGame;
         [STAThread]
         public static void Main()
         {
@@ -26,14 +28,19 @@ namespace QualScheme
 
                 game.Load += (sender, e) =>
                 {
+                    // Go fullscreen for now
+                    game.WindowState = WindowState.Fullscreen;
                     GL.Enable(EnableCap.Blend);
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
                     // setup settings, load textures, sounds
                     game.VSync = VSyncMode.On;
 
-                    backID = Program.loadTexture("labTable.png");
-                    textID = Program.loadTexture("clearLiquidTestTube.png");
+                    backID = Textures.loadTexture("labTable.png");
+                    textID = Textures.loadTexture("clearLiquidTestTube.png");
+                    main = new MainMenu();
+                    inMain = true;
+                    inGame = false;              
                 };
 
                 game.Resize += (sender, e) =>
@@ -52,14 +59,30 @@ namespace QualScheme
                     if (game.Keyboard[Key.Down])
                     {
                         // Example of keyboardness
-                    }
+                    }                                     
+                };
 
-                    current = Mouse.GetState();
+                game.MouseDown += (sender, e) =>
+                {
+                    current = game.Mouse;
 
                     if (current[MouseButton.Left])
                     {
-                        x += ((current.X - previous.X) / 100.0f);
-                        y -= ((current.Y - previous.Y) / 100.0f);
+                        Console.WriteLine(current.X + ", " + current.Y);
+
+                        if (inMain)
+                        {
+                            bool check = main.checkClick(current.X, current.Y);
+
+                            if (!check)
+                            {
+                                inMain = false;
+                                inGame = true;
+
+                                mainSolution = main.genSolution();
+                                mainSolution.printSolution();
+                            }
+                        }
                     }
                     previous = current;
                 };
@@ -70,22 +93,28 @@ namespace QualScheme
                     GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
                     GL.MatrixMode(MatrixMode.Projection);
                     GL.LoadIdentity();
-                    //GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
+                    GL.Ortho(0, 1920, 1080, 0, -1, 1);
 
-                    GL.BindTexture(TextureTarget.Texture2D, backID);
+                    if (inMain)
+                    {
+                        main.draw();
+                    }
 
-                    // Start background
-                    GL.Begin(BeginMode.Quads);
+                    else
+                    {
+                        GL.BindTexture(TextureTarget.Texture2D, backID);
 
-                    GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(-1.0f, -1.0f);//Top Left Corner
-                    GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(-1.0f, 1.0f);//Bottom Left Corner
-                    GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1.0f, 1.0f);//Bottom Right Corner
-                    GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1.0f, -1.0f);//Top Right Corner
 
-                    GL.End();
+                        // Start background
+                        GL.Begin(BeginMode.Quads);
 
-                    c.draw(x, y, textID);
-                    
+                        GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0f, 0f);//Top Left Corner
+                        GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0f, 1080f);//Bottom Left Corner
+                        GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1920f, 1080f);//Bottom Right Corner
+                        GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1920f, 0f);//Top Right Corner
+
+                        GL.End();
+                    }
 
                     game.SwapBuffers();
                 };
@@ -93,30 +122,6 @@ namespace QualScheme
                 // Run the game at 60 updates per second
                 game.Run(60.0);
             }
-        }
-
-        public static int loadTexture(string textName)
-        {
-            Constants c = new Constants();
-            String filename = c.getImgPath() + textName;
-            if (String.IsNullOrEmpty(filename))
-                throw new ArgumentException(filename);
-
-            int id = GL.GenTexture();
-
-            GL.BindTexture(TextureTarget.Texture2D, id);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-
-            Bitmap bmp = new Bitmap(filename);
-            BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bmp_data.Width, bmp_data.Height, 0,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
-
-            bmp.UnlockBits(bmp_data);
-
-            return id;
         }
     }
 }

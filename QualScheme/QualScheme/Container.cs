@@ -20,10 +20,10 @@ namespace QualScheme
 
             GL.Begin(BeginMode.Quads);
 
-            GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0.0f + x, 2.0f + y);//Top Left Corner
-            GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0.0f + x, 0.0f + y);//Bottom Left Corner
-            GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(0.5f + x, 0.0f + y);//Bottom Right Corner
-            GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(0.5f + x, 2.0f + y);//Top Right Corner
+            GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(100f, 100f);//Top Left Corner
+            GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(100f, 200f);//Bottom Left Corner
+            GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(200f, 200f);//Bottom Right Corner
+            GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(200f, 100f);//Top Right Corner
 
             GL.End();
         }
