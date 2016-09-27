@@ -23,6 +23,8 @@ namespace QualScheme
         static MainMenu titleScreen;
         // Bools to control the flow of the game
         static bool inMain, inGame;
+
+        static Container c;
         [STAThread]
         public static void Main()
         {
@@ -44,7 +46,9 @@ namespace QualScheme
                     labID = Textures.loadTexture("labTable.png");
                     titleScreen = new MainMenu();
                     inMain = true;
-                    inGame = false;              
+                    inGame = false;
+
+                    c = new Container();              
                 };
 
                 game.Resize += (sender, e) =>
@@ -52,10 +56,20 @@ namespace QualScheme
                     GL.Viewport(0, 0, game.Width, game.Height);
                 };
 
-                game.UpdateFrame += (sender, e) =>
+                // Currently handles passive mouse movement
+                game.MouseMove += (sender, e) =>
                 {
-                                                         
+                    current = game.Mouse;
+                    if (current[MouseButton.Left])
+                    {
+                        if (c.isInCoordinates(current.X, current.Y))
+                        {
+                            c.updateCoordinates(current.X, current.Y);
+                        }
+                    }
+                    previous = current;
                 };
+
 
                 game.KeyDown += (sender, e) =>
                 {
@@ -73,15 +87,15 @@ namespace QualScheme
 
                 game.MouseDown += (sender, e) =>
                 {
-                    current = game.Mouse;
+                    MouseDevice clicker = game.Mouse;
 
-                    if (current[MouseButton.Left])
+                    if (clicker[MouseButton.Left])
                     {
-                        Console.WriteLine(current.X + ", " + current.Y);
+                        Console.WriteLine(clicker.X + ", " + clicker.Y);
 
                         if (inMain)
                         {
-                            bool check = titleScreen.checkClick(current.X, current.Y);
+                            bool check = titleScreen.checkClick(clicker.X, clicker.Y);
 
                             if (!check)
                             {
@@ -93,7 +107,6 @@ namespace QualScheme
                             }
                         }
                     }
-                    previous = current;
                 };
 
                 game.RenderFrame += (sender, e) =>
@@ -113,8 +126,9 @@ namespace QualScheme
 
                     else
                     {
+                        // Always make sure the reset color to white for unaltered images
+                        GL.Color3(Color.White);
                         GL.BindTexture(TextureTarget.Texture2D, labID);
-
 
                         // Start background
                         GL.Begin(BeginMode.Quads);
@@ -125,6 +139,9 @@ namespace QualScheme
                         GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1920f, 0f);//Top Right Corner
 
                         GL.End();
+
+                        c.draw();
+
                     }
 
                     game.SwapBuffers();
