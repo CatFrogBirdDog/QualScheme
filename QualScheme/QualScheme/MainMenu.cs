@@ -11,14 +11,19 @@ namespace QualScheme
 {
     class MainMenu
     {
+        // Texture ID for the main screen and checkmarks
         int screenID, checkID;
+        // Bools for each group of ions
         bool group1, group2, group3, anions;
+
+        // Lots of values for button boundaries
         static float btnLeft, btnRight, g1Top, g1Bot,
             g2Top, g2Bot, g3Top, g3Bot, aTop, aBot,
             confLeft, confRight, confTop, confBot;
 
         public MainMenu()
         {
+            // Initialize all the stuff
             group1 = false;
             group2 = false;
             group3 = false;
@@ -60,7 +65,7 @@ namespace QualScheme
 
             GL.Begin(BeginMode.Quads);
                                               
-            // Draw Checkmarks
+            // Draw Checkmarks if the group is selected
             if (group1)
             {
                 GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(btnLeft, g1Top);//Top Left Corner

@@ -13,11 +13,15 @@ namespace QualScheme
 {
     class Program
     {
-        static int textID = 0, backID;
-        static Solution mainSolution;        
-        static MouseDevice current, previous;
-        static Container c = new Container();
-        static MainMenu main;
+        // Id of bakcground texture
+        static int labID;
+        // The main solution being tested
+        static Solution mainSolution;  
+        // Present and past positions of mouse      
+        static MouseDevice current, previous; // Maybe not need previous, we'll see
+        // Main menu
+        static MainMenu titleScreen;
+        // Bools to control the flow of the game
         static bool inMain, inGame;
         [STAThread]
         public static void Main()
@@ -36,9 +40,9 @@ namespace QualScheme
                     // setup settings, load textures, sounds
                     game.VSync = VSyncMode.On;
 
-                    backID = Textures.loadTexture("labTable.png");
-                    textID = Textures.loadTexture("clearLiquidTestTube.png");
-                    main = new MainMenu();
+                    // Initialize several variables
+                    labID = Textures.loadTexture("labTable.png");
+                    titleScreen = new MainMenu();
                     inMain = true;
                     inGame = false;              
                 };
@@ -50,6 +54,11 @@ namespace QualScheme
 
                 game.UpdateFrame += (sender, e) =>
                 {
+                                                         
+                };
+
+                game.KeyDown += (sender, e) =>
+                {
                     // add game logic, input handling
                     if (game.Keyboard[Key.Escape])
                     {
@@ -59,7 +68,7 @@ namespace QualScheme
                     if (game.Keyboard[Key.Down])
                     {
                         // Example of keyboardness
-                    }                                     
+                    }
                 };
 
                 game.MouseDown += (sender, e) =>
@@ -72,14 +81,14 @@ namespace QualScheme
 
                         if (inMain)
                         {
-                            bool check = main.checkClick(current.X, current.Y);
+                            bool check = titleScreen.checkClick(current.X, current.Y);
 
                             if (!check)
                             {
                                 inMain = false;
                                 inGame = true;
 
-                                mainSolution = main.genSolution();
+                                mainSolution = titleScreen.genSolution();
                                 mainSolution.printSolution();
                             }
                         }
@@ -89,20 +98,22 @@ namespace QualScheme
 
                 game.RenderFrame += (sender, e) =>
                 {
-                    // render graphics
+                    // Clear screen
                     GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
                     GL.MatrixMode(MatrixMode.Projection);
+
+                    // Setupt 2D drawing in a 1920 x 1080 monitor
                     GL.LoadIdentity();
                     GL.Ortho(0, 1920, 1080, 0, -1, 1);
 
                     if (inMain)
                     {
-                        main.draw();
+                        titleScreen.draw();
                     }
 
                     else
                     {
-                        GL.BindTexture(TextureTarget.Texture2D, backID);
+                        GL.BindTexture(TextureTarget.Texture2D, labID);
 
 
                         // Start background
