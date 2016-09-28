@@ -19,8 +19,8 @@ namespace QualScheme
         {
             // For now start in the middle of the screen
             x = 990; y = 540;
-            length = 100f;
-            height = 100f;
+            length = 50f;
+            height = 150f;
             textID = Textures.loadTexture("clearLiquidTestTube.png");
         }
 
@@ -36,11 +36,6 @@ namespace QualScheme
             GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(x - length, y + height);//Bottom Left Corner
             GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(x + length, y + height);//Bottom Right Corner
             GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(x + length, y - height);//Top Right Corner
-
-            /* GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(100f, 100f);//Top Left Corner
-             GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(100f, 200f);//Bottom Left Corner
-             GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(200f, 200f);//Bottom Right Corner
-             GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(200f, 100f);//Top Right Corner*/
 
             GL.End();
         }
