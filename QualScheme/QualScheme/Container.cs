@@ -56,6 +56,6 @@ namespace QualScheme
         {
             x = inx;
             y = iny;
-        }
+        }        
     }
 }

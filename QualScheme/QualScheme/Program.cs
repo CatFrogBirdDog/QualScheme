@@ -23,6 +23,7 @@ namespace QualScheme
         static MainMenu titleScreen;
         // Bools to control the flow of the game
         static bool inMain, inGame;
+        static ReagentPanel panel;
 
         static Container c;
         [STAThread]
@@ -48,6 +49,7 @@ namespace QualScheme
                     inMain = true;
                     inGame = false;
 
+                    panel = new ReagentPanel();
                     c = new Container();              
                 };
 
@@ -107,6 +109,14 @@ namespace QualScheme
                             }
                         }
                     }
+
+                    if (clicker[MouseButton.Right])
+                    {
+                        if (!inMain)
+                        {
+                            panel.switchPages();
+                        }
+                    }
                 };
 
                 game.RenderFrame += (sender, e) =>
@@ -141,6 +151,7 @@ namespace QualScheme
                         GL.End();
 
                         c.draw();
+                        panel.draw();
 
                     }
 
