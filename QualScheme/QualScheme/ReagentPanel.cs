@@ -22,7 +22,9 @@ namespace QualScheme
             pg2ButtonBound1, pg2ButtonBound2, pg2ButtonBound3, pg2ButtonBound4,
             pg2ButtonBound5, pg2ButtonBound6, pg2ButtonBound7, pg2ButtonBound8,
             // The bounds of the currently selected button
-            buttonTop, buttonBot;
+            buttonTop, buttonBot,
+            // The button to hide/Show the reaction table
+            hideLeft, hideRight, hideTop, hidebot;
         int pg1ID, pg2ID;
         bool show, activePage, buttonPage; // ActivePAge && buttonPage = true for page 1, false for page 2
         string activeReagent;
@@ -65,6 +67,11 @@ namespace QualScheme
 
             buttonTop = 0;
             buttonBot = 0;
+
+            hideLeft = 139;
+            hideRight = 199;
+            hideTop = 1000;
+            hidebot = 1050;
 
             activeReagent = "";
 
@@ -112,6 +119,11 @@ namespace QualScheme
                     GL.End();
                 }
             }
+
+            else
+            {
+                // Show stub?
+            }
         }
 
         public void switchPages()
@@ -127,6 +139,17 @@ namespace QualScheme
                 {
                     if (activePage) getPage1Click(x, y);
                     else getPage2Click(x, y);
+                }
+                
+                else
+                {
+                    if (hideLeft <= x && x <= hideRight)
+                    {
+                        if (hideTop <= y && y <= hidebot)
+                        {
+                            show = !show;
+                        }
+                    }
                 }                
             }
             
@@ -139,6 +162,7 @@ namespace QualScheme
                 buttonPage = true;
                 buttonTop = pg1ButtonBound1;
                 buttonBot = pg1ButtonBound2;
+                activeReagent = "ammonia";
             }
 
             else if (pg1ButtonBound2 <= y && y <= pg1ButtonBound3)
@@ -146,6 +170,7 @@ namespace QualScheme
                 buttonPage = true;
                 buttonTop = pg1ButtonBound2;
                 buttonBot = pg1ButtonBound3;
+                activeReagent = "ammoniumMolybdate";
             }
 
             else if (pg1ButtonBound3 <= y && y <= pg1ButtonBound4)
@@ -153,6 +178,7 @@ namespace QualScheme
                 buttonPage = true;
                 buttonTop = pg1ButtonBound3;
                 buttonBot = pg1ButtonBound4;
+                activeReagent = "ammoniumOxalate";
             }
 
             else if (pg1ButtonBound4 <= y && y <= pg1ButtonBound5)
@@ -160,6 +186,7 @@ namespace QualScheme
                 buttonPage = true;
                 buttonTop = pg1ButtonBound4;
                 buttonBot = pg1ButtonBound5;
+                activeReagent = "ammoniumSulfate";
             }
 
             else if (pg1ButtonBound5 <= y && y <= pg1ButtonBound6)
@@ -167,6 +194,7 @@ namespace QualScheme
                 buttonPage = true;
                 buttonTop = pg1ButtonBound5;
                 buttonBot = pg1ButtonBound6;
+                activeReagent = "bariumChloride";
             }
 
             else if (pg1ButtonBound6 <= y && y <= pg1ButtonBound7)
@@ -174,6 +202,7 @@ namespace QualScheme
                 buttonPage = true;
                 buttonTop = pg1ButtonBound6;
                 buttonBot = pg1ButtonBound7;
+                activeReagent = "dimethylglyoxime";
             }
 
             else if (pg1ButtonBound7 <= y && y <= pg1ButtonBound8)
@@ -181,6 +210,7 @@ namespace QualScheme
                 buttonPage = true;
                 buttonTop = pg1ButtonBound7;
                 buttonBot = pg1ButtonBound8;
+                activeReagent = "hydrochloricAcid";
             }
 
             else if (pg1ButtonBound8 <= y && y <= pg1ButtonBound9)
@@ -188,6 +218,7 @@ namespace QualScheme
                 buttonPage = true;
                 buttonTop = pg1ButtonBound8;
                 buttonBot = pg1ButtonBound9;
+                activeReagent = "isoamylAlcohol";
             }
 
             else if (pg1ButtonBound9 <= y && y <= pg1ButtonBound10)
@@ -195,6 +226,7 @@ namespace QualScheme
                 buttonPage = true;
                 buttonTop = pg1ButtonBound9;
                 buttonBot = pg1ButtonBound10;
+                activeReagent = "nitricAcid";
             }
         }
 
@@ -205,6 +237,7 @@ namespace QualScheme
                 buttonPage = false;
                 buttonTop = pg2ButtonBound1;
                 buttonBot = pg2ButtonBound2;
+                activeReagent = "potassiumChromate";
             }
 
             else if (pg2ButtonBound2 <= y && y <= pg2ButtonBound3)
@@ -212,6 +245,7 @@ namespace QualScheme
                 buttonPage = false;
                 buttonTop = pg2ButtonBound2;
                 buttonBot = pg2ButtonBound3;
+                activeReagent = "silverNitrate";
             }
 
             else if (pg2ButtonBound3 <= y && y <= pg2ButtonBound4)
@@ -219,6 +253,7 @@ namespace QualScheme
                 buttonPage = false;
                 buttonTop = pg2ButtonBound3;
                 buttonBot = pg2ButtonBound4;
+                activeReagent = "sodiumCoboltrinitrite";
             }
 
             else if (pg2ButtonBound4 <= y && y <= pg2ButtonBound5)
@@ -226,6 +261,7 @@ namespace QualScheme
                 buttonPage = false;
                 buttonTop = pg2ButtonBound4;
                 buttonBot = pg2ButtonBound5;
+                activeReagent = "sodiumHydroxide";
             }
 
             else if (pg2ButtonBound5 <= y && y <= pg2ButtonBound6)
@@ -233,6 +269,7 @@ namespace QualScheme
                 buttonPage = false;
                 buttonTop = pg2ButtonBound5;
                 buttonBot = pg2ButtonBound6;
+                activeReagent = "sodiumStannite";
             }
 
             else if (pg2ButtonBound6 <= y && y <= pg2ButtonBound7)
@@ -240,6 +277,7 @@ namespace QualScheme
                 buttonPage = false;
                 buttonTop = pg2ButtonBound6;
                 buttonBot = pg2ButtonBound7;
+                activeReagent = "sulfuricAcid";
             }
 
             else if (pg2ButtonBound7 <= y && y <= pg2ButtonBound8)
@@ -247,6 +285,7 @@ namespace QualScheme
                 buttonPage = false;
                 buttonTop = pg2ButtonBound7;
                 buttonBot = pg2ButtonBound8;
+                activeReagent = "thioacetamide";
             }
         }
     }
