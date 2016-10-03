@@ -108,6 +108,11 @@ namespace QualScheme
                                 mainSolution.printSolution();
                             }
                         }
+
+                        else
+                        {
+                            panel.getClick(clicker.X, clicker.Y);
+                        }
                     }
 
                     if (clicker[MouseButton.Right])
