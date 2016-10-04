@@ -24,8 +24,12 @@ namespace QualScheme
             // The bounds of the currently selected button
             buttonTop, buttonBot,
             // The button to hide/Show the reaction table
-            hideLeft, hideRight, hideTop, hidebot;
-        int pg1ID, pg2ID;
+            hideLeft, hideRight, hideTop, hidebot,
+            // Arrows
+            arrowTop, arrowBot, pg1ArrowLeft, pg1ArrowRight, pg2ArrowLeft, pg2ArrowRight;
+        
+
+        int pg1ID, pg2ID, panel1ID, panel2ID;
         bool show, activePage, buttonPage; // ActivePAge && buttonPage = true for page 1, false for page 2
         string activeReagent;
 
@@ -73,10 +77,19 @@ namespace QualScheme
             hideTop = 1000;
             hidebot = 1050;
 
+            arrowTop = 1010;
+            arrowBot = 1064;
+            pg1ArrowLeft = 250;
+            pg1ArrowRight = 1064;
+            pg2ArrowLeft = 20;
+            pg2ArrowRight = 84;
+
             activeReagent = "";
 
             pg1ID = Textures.loadTexture("reagentPage1transparent.png");
             pg2ID = Textures.loadTexture("reagentPage2transparent.png");
+            panel1ID = Textures.loadTexture("reagentPanelArrowRight.png");
+            panel2ID = Textures.loadTexture("reagentPanelArrowLeft.png");
         }
 
         public void draw()
@@ -84,6 +97,23 @@ namespace QualScheme
             if (show)
             {
                 GL.Color3(Color.White);
+
+                if (activePage)
+                {
+                    GL.BindTexture(TextureTarget.Texture2D, panel1ID);
+                }
+
+                else
+                {
+                    GL.BindTexture(TextureTarget.Texture2D, panel2ID);
+                }
+
+                GL.Begin(BeginMode.Quads);
+                GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(panelLeft, panelTop);//Top Left Corner
+                GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(panelLeft, panelBot);//Bottom Left Corner
+                GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(panelRight, panelBot);//Bottom Right Corner
+                GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(panelRight, panelTop);//Top Right Corner
+                GL.End();
 
                 if (activePage)
                 {
@@ -135,22 +165,43 @@ namespace QualScheme
         {
             if (panelLeft <= x && x <= panelRight)
             {
-                if (topTextBound <= y && y <= botTextBound)
-                {
-                    if (activePage) getPage1Click(x, y);
-                    else getPage2Click(x, y);
-                }
-                
-                else
-                {
-                    if (hideLeft <= x && x <= hideRight)
+                if (show)
+                { 
+                    
+                    if (topTextBound <= y && y <= botTextBound)
                     {
-                        if (hideTop <= y && y <= hidebot)
+                        if (activePage) getPage1Click(x, y);
+                        else getPage2Click(x, y);
+
+                    }
+
+                    else if (activePage && arrowTop <= y && y <= arrowBot)
+                    {
+                        if (pg1ArrowLeft <= x && x <= pg1ArrowRight)
                         {
-                            show = !show;
+                            switchPages();
                         }
                     }
-                }                
+
+                    else if (!activePage && arrowTop <= y && y <= arrowBot)
+                    {
+                        if (pg2ArrowLeft <= x && x <= pg2ArrowRight)
+                        {
+                            switchPages();
+                        }
+                    }
+
+                    else
+                    {
+                        if (hideLeft <= x && x <= hideRight)
+                        {
+                            if (hideTop <= y && y <= hidebot)
+                            {
+                                show = !show;
+                            }
+                        }
+                    }
+                }              
             }
             
         }
@@ -227,7 +278,7 @@ namespace QualScheme
                 buttonTop = pg1ButtonBound9;
                 buttonBot = pg1ButtonBound10;
                 activeReagent = "nitricAcid";
-            }
+            }            
         }
 
         void getPage2Click(int x, int y)
@@ -286,7 +337,7 @@ namespace QualScheme
                 buttonTop = pg2ButtonBound7;
                 buttonBot = pg2ButtonBound8;
                 activeReagent = "thioacetamide";
-            }
+            }            
         }
     }
 }
