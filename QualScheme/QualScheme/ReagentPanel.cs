@@ -23,8 +23,10 @@ namespace QualScheme
             pg2ButtonBound5, pg2ButtonBound6, pg2ButtonBound7, pg2ButtonBound8,
             // The bounds of the currently selected button
             buttonTop, buttonBot,
-            // The button to hide/Show the reaction table
+            // The button to hide the reaction table
             hideLeft, hideRight, hideTop, hidebot,
+            // The button to show the reaction table
+            showTop, showBot, showLeft, showRight,
             // Arrows
             arrowTop, arrowBot, pg1ArrowLeft, pg1ArrowRight, pg2ArrowLeft, pg2ArrowRight;
         
@@ -72,10 +74,10 @@ namespace QualScheme
             buttonTop = 0;
             buttonBot = 0;
 
-            hideLeft = 139;
-            hideRight = 199;
-            hideTop = 1000;
-            hidebot = 1050;
+            hideLeft = 140;
+            hideRight = 200;
+            hideTop = 1017;
+            hidebot = 1070;
 
             arrowTop = 1010;
             arrowBot = 1064;
@@ -83,6 +85,11 @@ namespace QualScheme
             pg1ArrowRight = 1064;
             pg2ArrowLeft = 20;
             pg2ArrowRight = 84;
+
+            showTop = 990;
+            showBot = 1070;
+            showLeft = 20;
+            showRight = 1070;
 
             activeReagent = "";
 
@@ -172,7 +179,6 @@ namespace QualScheme
                     {
                         if (activePage) getPage1Click(x, y);
                         else getPage2Click(x, y);
-
                     }
 
                     else if (activePage && arrowTop <= y && y <= arrowBot)
@@ -191,14 +197,22 @@ namespace QualScheme
                         }
                     }
 
-                    else
-                    {
-                        if (hideLeft <= x && x <= hideRight)
+                    if (hideLeft <= x && x <= hideRight)
+                    {                       
+                        if (hideTop <= y && y <= hidebot)
                         {
-                            if (hideTop <= y && y <= hidebot)
-                            {
-                                show = !show;
-                            }
+                            show = !show;
+                        }
+                    }
+                }
+
+                else
+                {
+                    if (showLeft <= x && x <= showRight)
+                    {
+                        if (showTop <= y && y <= showBot)
+                        {
+                            show = !show;
                         }
                     }
                 }              
