@@ -2,12 +2,12 @@
 {
     public class Constants
     {
-#if RELEASE
-        public static string imagePath = ".//ChemLabImages";
-        public static string textPath = ".//Resources//";
-#elif DEBUG
+#if DEBUG
         public static string imagePath = "..//..//ChemLabImages//";
         public static string textPath = "..//..//ChemLabTexts//";
+#else
+        public static string imagePath = ".//ChemLabImages";
+        public static string textPath = ".//Resources//";
 #endif
         public string getTxtPath() { return textPath;  }
         public string getImgPath() { return imagePath; }
