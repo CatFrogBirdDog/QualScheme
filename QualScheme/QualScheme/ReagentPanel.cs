@@ -12,7 +12,7 @@ namespace QualScheme
     class ReagentPanel
     {
         float
-            panelLeft, panelRight, panelTop, panelBot,
+            panelLeft, panelRight, panelTop, panelBot, panelMid,
             // The bounds of the text inside of the panel
             topTextBound, botTextBound,
             // The bounds (top and bottom) of reagents in the first panel
@@ -21,6 +21,7 @@ namespace QualScheme
             // The bound (top and bottom) of the reagents in the second panel
             pg2ButtonBound1, pg2ButtonBound2, pg2ButtonBound3, pg2ButtonBound4,
             pg2ButtonBound5, pg2ButtonBound6, pg2ButtonBound7, pg2ButtonBound8,
+
             // The bounds of the currently selected button
             buttonTop, buttonBot,
             // The button to hide the reaction table
@@ -45,6 +46,7 @@ namespace QualScheme
 
             panelLeft = 0;
             panelRight = 340;
+            panelMid = 170;
             panelTop = 0;
             panelBot = 1080;
 
@@ -145,7 +147,7 @@ namespace QualScheme
                     // Have to Unbind texture
                     GL.BindTexture(TextureTarget.Texture2D, 0);
 
-                    GL.LineWidth(5);
+                    GL.LineWidth(3);
                     GL.Begin(BeginMode.LineLoop);
                     {
                         GL.Vertex2(panelLeft, buttonTop);
@@ -173,8 +175,7 @@ namespace QualScheme
             if (panelLeft <= x && x <= panelRight)
             {
                 if (show)
-                { 
-                    
+                {
                     if (topTextBound <= y && y <= botTextBound)
                     {
                         if (activePage) getPage1Click(x, y);
@@ -222,6 +223,8 @@ namespace QualScheme
 
         void getPage1Click(int x, int y)
         {
+           
+
             if (pg1ButtonBound1 <= y && y <= pg1ButtonBound2)
             {
                 buttonPage = true;

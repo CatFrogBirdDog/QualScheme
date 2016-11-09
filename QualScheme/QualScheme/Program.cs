@@ -26,6 +26,7 @@ namespace QualScheme
         static ReagentPanel panel;
 
         static Container c;
+        static dropperButton drop;
         [STAThread]
         public static void Main()
         {
@@ -50,7 +51,8 @@ namespace QualScheme
                     inGame = false;
 
                     panel = new ReagentPanel();
-                    c = new Container();              
+                    c = new Container();
+                    drop = new dropperButton();
                 };
 
                 game.Resize += (sender, e) =>
@@ -67,6 +69,10 @@ namespace QualScheme
                         if (c.isInCoordinates(current.X, current.Y))
                         {
                             c.updateCoordinates(current.X, current.Y);
+                        }
+                        else if (drop.isInCoordinates(current.X, current.Y))
+                        {
+                            drop.updateCoordinates(current.X, current.Y);
                         }
                     }
                     previous = current;
@@ -119,7 +125,7 @@ namespace QualScheme
                     {
                         if (!inMain)
                         {
-                            panel.switchPages();
+                            drop.deleteDropper();
                         }
                     }
                 };
@@ -157,6 +163,7 @@ namespace QualScheme
 
                         c.draw();
                         panel.draw();
+                        drop.draw();
 
                     }
 

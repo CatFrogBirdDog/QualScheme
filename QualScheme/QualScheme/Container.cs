@@ -13,7 +13,7 @@ namespace QualScheme
     class Container
     {
         private static Solution thisSolution; // TODO: Come up with better name 
-        static int textID;
+        static int textID, test;
         static float x, y, length, height;
         public Container()
         {
@@ -22,13 +22,15 @@ namespace QualScheme
             length = 50f;
             height = 150f;
             textID = Textures.loadTexture("clearLiquidTestTube.png");
+
         }
 
         public void draw()
         {
             GL.BindTexture(TextureTarget.Texture2D, textID);
-
-            GL.Color3(Color.Gold);
+            
+            
+            GL.Color3(Color.White);
 
             GL.Begin(BeginMode.Quads);
 
@@ -37,7 +39,8 @@ namespace QualScheme
             GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(x + length, y + height);//Bottom Right Corner
             GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(x + length, y - height);//Top Right Corner
 
-            GL.End();
+            GL.End(); 
+
         }
 
         public bool isInCoordinates(float inx, float iny)
