@@ -13,7 +13,8 @@ namespace QualScheme
     class Container
     {
         private static Solution thisSolution; // TODO: Come up with better name 
-        static int textID, test;
+        public bool show = false;
+        static int textID, whiteppt;
         static float x, y, length, height;
         public Container()
         {
@@ -22,7 +23,24 @@ namespace QualScheme
             length = 50f;
             height = 150f;
             textID = Textures.loadTexture("clearLiquidTestTube.png");
+            whiteppt = Textures.loadTexture("testTubeBlackPpt.png");
 
+        }
+
+        public void colorChange()
+        {
+            if (show)
+            {
+                GL.BindTexture(TextureTarget.Texture2D, whiteppt);
+                GL.Begin(BeginMode.Quads);
+
+                GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(x - length, y - height);//Top Left Corner
+                GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(x - length, y + height);//Bottom Left Corner
+                GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(x + length, y + height);//Bottom Right Corner
+                GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(x + length, y - height);//Top Right Corner
+
+                GL.End();
+            }
         }
 
         public void draw()
@@ -30,7 +48,7 @@ namespace QualScheme
             GL.BindTexture(TextureTarget.Texture2D, textID);
             
             
-            GL.Color3(Color.White);
+            //GL.Color3(Color.White);
 
             GL.Begin(BeginMode.Quads);
 

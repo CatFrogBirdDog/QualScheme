@@ -34,9 +34,16 @@ namespace QualScheme
             }
         }
 
-        public void react(string reagent)
+        public bool react(string reagent)
         {
             ions.ForEach(el => Console.WriteLine(rt.getEntry(new reactionKey(reagent, el))));
+            if(rt.getEntry(new reactionKey(reagent, "lead")) == "pptWhite")
+            { 
+                Console.WriteLine("something produced white ppt");
+                return true; 
+            }
+            Console.WriteLine("not working");
+            return false;
         }
 
         public void printSolution()

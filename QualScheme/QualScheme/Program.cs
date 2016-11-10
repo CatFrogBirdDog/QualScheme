@@ -16,7 +16,8 @@ namespace QualScheme
         // Id of bakcground texture
         static int labID;
         // The main solution being tested
-        static Solution mainSolution;  
+        static Solution mainSolution;
+        static Solution modifiedSolution;
         // Present and past positions of mouse      
         static MouseDevice current, previous; // Maybe not need previous, we'll see
         // Main menu
@@ -112,14 +113,17 @@ namespace QualScheme
 
                                 mainSolution = titleScreen.genSolution();
                                 mainSolution.printSolution();
+                                modifiedSolution = mainSolution;
+
                             }
                         }
 
                         else
                         {
-                            panel.getClick(clicker.X, clicker.Y);
+                            panel.getClick(clicker.X, clicker.Y);  
                         }
                     }
+
 
                     if (clicker[MouseButton.Right])
                     {
@@ -148,7 +152,7 @@ namespace QualScheme
                     else
                     {
                         // Always make sure the reset color to white for unaltered images
-                        GL.Color3(Color.White);
+                       // GL.Color3(Color.White);
                         GL.BindTexture(TextureTarget.Texture2D, labID);
 
                         // Start background
@@ -164,6 +168,27 @@ namespace QualScheme
                         c.draw();
                         panel.draw();
                         drop.draw();
+
+
+                        MouseDevice clicker = game.Mouse;
+
+                            //currently bound to specific location for demo; update to match test tube bounds
+                        
+                        if (clicker.X > 980 && clicker.Y > 370) //add bounds for other sides
+                            c.show = true;
+
+                        if(c.show && game.Keyboard[Key.Down])
+                           
+                            {
+                                
+                                // drop.drop(clicker.X, clicker.Y);
+                                if (modifiedSolution.react("hydrochloricAcid"))
+                                    //want to use the modified solution to actually change things in the soln
+                                {
+                                    c.colorChange();
+                                }
+                            }   
+                        
 
                     }
 
